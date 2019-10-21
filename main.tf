@@ -126,8 +126,8 @@ module "demo_app_sg" {
 # Create the demo NGINX app
 #
 module "nginx-demo-app" {
-  source  = "codygreen/nginx-demo-app/aws"
-  version = "0.1.2"
+  source  = "github.com/mjmenger/juiceshopmodule"
+  #version = "0.1.2"
 
   prefix = format(
     "%s-%s",
