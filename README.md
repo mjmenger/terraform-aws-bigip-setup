@@ -59,7 +59,7 @@ You will need to build the demo out in stages.
 # initialize Terraform
 terraform init
 # build the NGINX nodes, the BIG-IPS, and the underpinning infrastructure
-terraform apply -target module.jumphost -target module.vpc -target module.nginx-demo-app -target module.bigip -target module.bigip_sg -target module.bigip_mgmt_sg -target module.demo_app_sg -target aws_secretsmanager_secret_version.bigip-pwd
+terraform apply -target module.jumphost -target module.vpc -target module.nginx-demo-app -target module.bigip -target module.bigip_sg -target module.bigip_mgmt_sg -target module.demo_app_sg -target aws_secretsmanager_secret_version.bigip-pwd -target null_resource.transfer
 ```
 In between the intial commands and the final command,  you will need to wait as the BIG-IPs complete configuration. Once you are able to log into the BIG-IPs using the generated password you can proceed to the next command.
 
@@ -113,7 +113,7 @@ terraform destroy -target bigip_as3.as3-demo1 -target bigip_as3.as3-demo2
 terraform destroy -target module.nginx-demo-app
 # remove the BIG-IP and the underpinning infrastructure
 terraform destroy -target module.jumphost -target module.vpc -target module.bigip -target module.bigip_sg -target module.bigip_mgmt_sg -target module.demo_app_sg -target aws_secretsmanager_secret_version.bigip-pwd
-terraform destroy -target aws_secretsmanager_secret.bigip -target random_password.password -target random_id.id -target data.aws_ami.latest-ubuntu
+terraform destroy -target aws_secretsmanager_secret.bigip -target random_password.password -target random_id.id -target data.aws_ami.latest-ubuntu -target null_resource.transfer
 ```
 
 as a final step check that terraform doesn't think there's anything remaining
