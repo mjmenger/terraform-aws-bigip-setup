@@ -59,7 +59,7 @@ You will need to build the demo out in stages.
 # initialize Terraform
 terraform init
 # build the NGINX nodes, the BIG-IPS, and the underpinning infrastructure
-terraform apply -target module.vpc -target module.nginx-demo-app -target module.bigip -target module.bigip_sg -target module.bigip_mgmt_sg -target module.demo_app_sg -target aws_secretsmanager_secret_version.bigip-pwd
+terraform apply -target module.jumphost -target module.vpc -target module.nginx-demo-app -target module.bigip -target module.bigip_sg -target module.bigip_mgmt_sg -target module.demo_app_sg -target aws_secretsmanager_secret_version.bigip-pwd
 ```
 In between the intial commands and the final command,  you will need to wait as the BIG-IPs complete configuration. Once you are able to log into the BIG-IPs using the generated password you can proceed to the next command.
 
@@ -80,7 +80,10 @@ If terraform returns an error, rerun ```terraform apply```.
 export BIGIPHOST0=`terraform output --json | jq '.bigip_mgmt_public_ips.value[0]' | sed 's/"//g'`
 export BIGIPMGMTPORT=`terraform output --json | jq '.bigip_mgmt_port.value' | sed 's/"//g'`
 export BIGIPPASSWORD=`terraform output --json | jq '.bigip_password.value' | sed 's/"//g'`
-echo connect at https://$BIGIPHOST0:$BIGIPMGMTPORT
+export JUMPHOSTIP=`terraform output --json | jq '.jumphost_ip.value[0]' | sed 's/"//g'`
+echo connect at https://$BIGIPHOST0:$BIGIPMGMTPORT with $BIGIPPASSWORD
+echo connect to jumphost at with
+echo ssh -i "tfdemo.pem" ubuntu@$JUMPHOSTIP
 ```
 connect to the BIGIP at https://<bigip_mgmt_public_ips>:<bigip_mgmt_port>
 login as user:admin and password: <bigip_password>
@@ -109,6 +112,13 @@ terraform destroy -target bigip_as3.as3-demo1 -target bigip_as3.as3-demo2
 # remove the nginx demo application nodes
 terraform destroy -target module.nginx-demo-app
 # remove the BIG-IP and the underpinning infrastructure
-terraform destroy -target module.vpc -target module.bigip -target module.bigip_sg -target module.bigip_mgmt_sg -target module.demo_app_sg -target aws_secretsmanager_secret_version.bigip-pwd
+terraform destroy -target module.jumphost -target module.vpc -target module.bigip -target module.bigip_sg -target module.bigip_mgmt_sg -target module.demo_app_sg -target aws_secretsmanager_secret_version.bigip-pwd
+terraform destroy -target aws_secretsmanager_secret.bigip -target random_password.password -target random_id.id -target data.aws_ami.latest-ubuntu
 ```
+
+as a final step check that terraform doesn't think there's anything remaining
+```hcl
+terraform show
+```
+this should return a blank line
 
