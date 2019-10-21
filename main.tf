@@ -140,7 +140,7 @@ module "nginx-demo-app" {
     module.demo_app_sg.this_security_group_id
   ]
   vpc_subnet_ids     = module.vpc.private_subnets
-  ec2_instance_count = 4
+  ec2_instance_count = 1
 }
 
 #
