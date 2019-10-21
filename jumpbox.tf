@@ -16,7 +16,6 @@ data "aws_ami" "latest-ubuntu" {
 }
 
 
-
 module "jumphost" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 2.0"
@@ -39,5 +38,28 @@ module "jumphost" {
     Terraform   = "true"
     Environment = "dev"
     Application = var.prefix
+  }
+}
+
+resource "null_resource" "transfer" {
+  provisioner "file" {
+    content     = templatefile(
+      "${path.module}/transfer.tmpl",
+          {
+            bigiphost         = jsonencode(module.bigip.mgmt_public_ips)
+            juiceshop_private = jsonencode(module.nginx-demo-app.private_ips)
+            bigip_password     = random_password.password.result
+            bigip_domain      = "${var.region}.compute.internal"
+          }
+    )
+
+    destination = "~/transferfile.txt"
+
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("${path.module}/../../tfdemo.pem")
+      host        = module.jumphost.public_ip[0]
+    }  
   }
 }
