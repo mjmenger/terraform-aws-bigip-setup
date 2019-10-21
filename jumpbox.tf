@@ -44,21 +44,25 @@ module "jumphost" {
 resource "null_resource" "transfer" {
   provisioner "file" {
     content     = templatefile(
-      "${path.module}/transfer.tmpl",
+      "${path.module}/hostvars.yml.tmpl",
           {
-            bigiphost         = jsonencode(module.bigip.mgmt_public_ips)
-            juiceshop_private = jsonencode(module.nginx-demo-app.private_ips)
-            bigip_password     = random_password.password.result
-            bigip_domain      = "${var.region}.compute.internal"
+            bigip_host_ip          = module.bigip.mgmt_public_ips[0]
+            bigip_host_dns         = module.bigip.mgmt_public_dns[0]
+            bigip_domain           = "${var.region}.compute.internal"
+            bigip_password         = random_password.password.result
+            bigip_external_self_ip = "10.1.10.241/24"
+            bigip_internal_self_ip = "10.1.20.241/24"
+            appserver_virtual_ip   = module.nginx-demo-app.private_ips[0]
+            appserver_host_ip      = module.nginx-demo-app.private_ips[0]
           }
     )
 
-    destination = "~/transferfile.txt"
+    destination = "~/hostvars.yml"
 
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("${path.module}/../../tfdemo.pem")
+      private_key = file(var.ec2_key_file)
       host        = module.jumphost.public_ip[0]
     }  
   }
