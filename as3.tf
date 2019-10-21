@@ -8,12 +8,6 @@ provider "bigip" {
   password = random_password.password.result
 }
 
-provider "bigip" {
-  alias    = "bigip2"
-  address  = format("https://%s:%s", module.bigip.mgmt_public_ips[1], module.bigip.mgmt_port)
-  username = "admin"
-  password = random_password.password.result
-}
 
 resource "bigip_as3" "as3-demo1" {
   provider = bigip.bigip1
@@ -26,13 +20,20 @@ resource "bigip_as3" "as3-demo1" {
   tenant_name = "as3"
 }
 
-resource "bigip_as3" "as3-demo2" {
-  provider = bigip.bigip2
-  as3_json = templatefile(
-    "${path.module}/as3.tmpl",
-    {
-      pool_members = jsonencode(module.nginx-demo-app.private_ips)
-    }
-  )
-  tenant_name = "as3"
-}
+# provider "bigip" {
+#   alias    = "bigip2"
+#   address  = format("https://%s:%s", module.bigip.mgmt_public_ips[1], module.bigip.mgmt_port)
+#   username = "admin"
+#   password = random_password.password.result
+# }
+
+# resource "bigip_as3" "as3-demo2" {
+#   provider = bigip.bigip2
+#   as3_json = templatefile(
+#     "${path.module}/as3.tmpl",
+#     {
+#       pool_members = jsonencode(module.nginx-demo-app.private_ips)
+#     }
+#   )
+#   tenant_name = "as3"
+# }
