@@ -44,7 +44,7 @@ module "jumphost" {
 resource "null_resource" "transfer" {
   provisioner "file" {
     content     = templatefile(
-      "${path.module}/hostvars.yml.tmpl",
+      "${path.module}/hostvars_template.yml",
           {
             bigip_host_ip          = module.bigip.mgmt_public_ips[0]
             bigip_host_dns         = module.bigip.mgmt_public_dns[0]
