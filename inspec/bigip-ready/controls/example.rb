@@ -20,8 +20,8 @@ control "AS3 Connectivity" do
     describe host(bigip_host, port: BIGIP_PORT, protocol: 'tcp') do
         it { should be_reachable }
     end
-    testurl = 'https://' + bigip_host + ':' + BIGIP_PORT + '/mgmt/shared/appsvcs/info'
-    describe http(testurl,
+    
+    describe http("https://#{bigip_host}:#{BIGIP_PORT}/mgmt/shared/appsvcs/info",
               auth: {user: 'admin', pass: BIGIP_PASSWORD},
               params: {format: 'html'},
               method: 'GET',
