@@ -11,10 +11,12 @@ provider "bigip" {
 
 resource "bigip_as3" "as3-demo1" {
   provider = bigip.bigip1
+
   as3_json = templatefile(
     "${path.module}/as3.tmpl",
     {
-      pool_members = jsonencode(module.nginx-demo-app.private_ips)
+      destination_ip = jsonencode(["0.0.0.0"])
+      pool_members   = jsonencode(module.nginx-demo-app.private_ips)
     }
   )
   tenant_name = "as3"
