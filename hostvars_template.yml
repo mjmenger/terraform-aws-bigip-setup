@@ -1,19 +1,28 @@
-bigip_provider:
-  server: "${bigip_host_ip}"
-  user: admin
-  password: "${bigip_password}"
+all:
+  vars:
+    app_server_address: "10.1.20.11"
 
-bigip_validate_certs: false
-bigip_domain: "${bigip_domain}"
-bigip_hostname: "${bigip_host_dns}"
-bigip_ntp_server: "\"0.pool.ntp.org\", \"1.pool.ntp.org\""
-bigip_ntp_timezone: "America/Los_Angeles"
-bigip_dns_server: "\"10.1.255.254\""
-bigip_dns_search: "\"{{ bigip_domain }}\""
-bigip_external_self_ip: "${bigip_external_self_ip}"
-bigip_internal_self_ip: "${bigip_internal_self_ip}"
+  children:
+    servers:
+      hosts:
+        ${appserver_host_ip}:
+          ansible_connection: local
+          app_server_gateway: "10.1.20.1" # TODO find this value
 
-app_virtual_address: "${appserver_virtual_ip}"
-
-# TODO: fix DRY problem. This variable is repeated in the other host_vars file
-app_server_address: ${appserver_host_ip}
+    big_ips:
+      hosts:
+        ${bigip_external_self_ip}:
+          bigip_provider:
+            server: "{{ inventory_hostname }}"
+            user: "${bigip_username}"
+            password: "${bigip_password}"
+          bigip_validate_certs: false
+          bigip_domain: "${bigip_domain}"
+          bigip_hostname: "${bigip_host_dns}"
+          bigip_ntp_server: "\"0.pool.ntp.org\", \"1.pool.ntp.org\""
+          bigip_ntp_timezone: "America/Los_Angeles"
+          bigip_dns_server: "\"10.1.255.254\"" # find this value
+          bigip_dns_search: "\"{{ bigip_domain }}\""
+          bigip_external_self_ip: "${bigip_external_self_ip}"
+          bigip_internal_self_ip: "${bigip_internal_self_ip}"
+          app_virtual_address: "${appserver_virtual_ip}"
