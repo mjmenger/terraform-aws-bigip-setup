@@ -112,8 +112,7 @@ terraform destroy -target bigip_as3.as3-demo1 -target bigip_as3.as3-demo2
 # remove the nginx demo application nodes
 terraform destroy -target module.nginx-demo-app
 # remove the BIG-IP and the underpinning infrastructure
-terraform destroy -target module.jumphost -target module.vpc -target module.bigip -target module.bigip_sg -target module.bigip_mgmt_sg -target module.demo_app_sg -target aws_secretsmanager_secret_version.bigip-pwd
-terraform destroy -target aws_secretsmanager_secret.bigip -target random_password.password -target random_id.id -target data.aws_ami.latest-ubuntu -target null_resource.transfer
+terraform destroy -target module.jumphost -target module.vpc -target module.bigip -target module.bigip_sg -target module.bigip_mgmt_sg -target module.demo_app_sg -target aws_secretsmanager_secret_version.bigip-pwd -target aws_secretsmanager_secret.bigip -target random_password.password -target random_id.id -target data.aws_ami.latest-ubuntu -target null_resource.transfer
 ```
 
 as a final step check that terraform doesn't think there's anything remaining
