@@ -49,6 +49,7 @@ resource "null_resource" "transfer" {
             bigip_host_ip          = module.bigip.mgmt_public_ips[0]
             bigip_host_dns         = module.bigip.mgmt_public_dns[0]
             bigip_domain           = "${var.region}.compute.internal"
+            bigip_username         = "admin"
             bigip_password         = random_password.password.result
             bigip_external_self_ip = "10.1.10.241/24"
             bigip_internal_self_ip = "10.1.20.241/24"

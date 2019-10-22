@@ -7,10 +7,15 @@ title "Verify BIG-IP availability"
 # created by terraform output --json > inspec/bigip-ready/files/terraform.json
 content = inspec.profile.file("terraform.json")
 params = JSON.parse(content)
-
-BIGIP_DNS       = params['bigip_mgmt_public_ips']['value']
-BIGIP_PORT      = params['bigip_mgmt_port']['value']
-BIGIP_PASSWORD  = params['bigip_password']['value']
+begin
+  BIGIP_DNS       = params['bigip_mgmt_public_ips']['value']
+  BIGIP_PORT      = params['bigip_mgmt_port']['value']
+  BIGIP_PASSWORD  = params['bigip_password']['value']
+rescue
+  BIGIP_DNS       = []
+  BIGIP_PORT      = ""
+  BIGIP_PASSWORD  = ""
+end
 
 control "AS3 Connectivity" do
   impact 1.0
