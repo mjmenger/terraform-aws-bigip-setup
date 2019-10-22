@@ -28,3 +28,6 @@ variable "allowed_app_cidr" {
 
 variable "ec2_key_name" {
 }
+
+variable "ec2_key_file" {
+}
