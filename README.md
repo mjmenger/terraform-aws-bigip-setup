@@ -26,22 +26,22 @@ https://www.terraform.io/docs/commands/cli-config.html
 - Record token in safe place
 # 1. Running Using a Docker container
 You can choose to run this from your workstation or a container although container will be much more straight forward to get working. Follow the instructions below as appropriate;
-
+You can run the container locally or use a jumpbox. I chose to deploy a free tier ubuntu 18 box in aws.
 **Docker Container Setup**
 
 **Note:** Port 8089 is opened in order to use the gui of the locust load generating tool should you choose to use it.
 
 **Using Docker**
 Deploy an ubuntu jumpbox and install Docker CE - 
-  - sudo apt install apt-transport-https ca-certificates curl software-properties-common
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - `sudo apt install apt-transport-https ca-certificates curl software-properties-common`
+  - `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -`
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic test"
   - sudo apt update
   - sudo apt upgrade
   - sudo apt install docker-ce
   - docker -v
 
-**Using your workstation**
+**Using your Workstation - (alot more work than the container deployment method above)**
   - install Terraform https://learn.hashicorp.com/terraform/getting-started/install.html
   - install inpsec https://www.inspec.io/downloads/
   - install locust https://docs.locust.io/en/stable/installation.html
@@ -55,9 +55,10 @@ Deploy an ubuntu jumpbox and install Docker CE -
 
 **Note:** -v is volume option and maps host directory (bi-directionally and dynamically) to allow host to share files into guest container. Now all tools from repo are available in the docker container - any other files put into /home/ubuntu/terraform-aws-bigip-setup on the jumpbox will replicate dynamically to the container workspace directory. 
 # 3. Configure Access Credentials
-#Created new user in AWS IAM and granted admin access and saved keys for use below
-#starting from within the clone of this repository on the jumphost (/home/ubuntu/terraform-aws-bigip-setup)
-vi secrets.auto.tfvars
+**Pre-req** - Created new user in AWS IAM and granted admin access and saved keys for use below
+
+Start from within the clone of this repository on the jumphost (/home/ubuntu/terraform-aws-bigip-setup)
+- vi secrets.auto.tfvars
 
 enter the following in the *secrets.auto.tfvars* file
 
