@@ -1,5 +1,4 @@
 # Demo deployment of BIG-IPs using Terraform
-# Note '''' are markup language and not part of commands
 # Pre-Req
 This example creates the following resources inside of AWS.  Please ensure your IAM user or IAM Role has privileges to create these objects.
 
