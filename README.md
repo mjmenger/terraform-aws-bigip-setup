@@ -35,11 +35,11 @@ You can run the container locally or use a jumpbox. I chose to deploy a free tie
 Deploy an ubuntu jumpbox and install Docker CE - 
   - `sudo apt install apt-transport-https ca-certificates curl software-properties-common`
   - `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -`
-  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic test"
-  - sudo apt update
-  - sudo apt upgrade
-  - sudo apt install docker-ce
-  - docker -v
+  - `sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic test"`
+  - `sudo apt update`
+  - `sudo apt upgrade`
+  - `sudo apt install docker-ce`
+  - `docker -v`
 
 **Using your Workstation - (alot more work than the container deployment method above)**
   - install Terraform https://learn.hashicorp.com/terraform/getting-started/install.html
@@ -48,25 +48,25 @@ Deploy an ubuntu jumpbox and install Docker CE -
   - install jq https://stedolan.github.io/jq/download/
   - if on a Windows workstation, install Putty for scp support https://putty.org
 # 2. Configuring Docker on jumphost: 
-- cd $home
-- git clone https://github.com/dober-man/terraform-aws-bigip-setup.git
-- cd terraform-aws-bigip-setup/
-- sudo docker run -it -v $(pwd):/workspace -p 8089:8089 mmenger/tfdemoenv:1.6.2 /bin/bash
+- `cd $home`
+- `git clone https://github.com/dober-man/terraform-aws-bigip-setup.git`
+- `cd terraform-aws-bigip-setup/`
+- `sudo docker run -it -v $(pwd):/workspace -p 8089:8089 mmenger/tfdemoenv:1.6.2 /bin/bash`
 
 **Note:** -v is volume option and maps host directory (bi-directionally and dynamically) to allow host to share files into guest container. Now all tools from repo are available in the docker container - any other files put into /home/ubuntu/terraform-aws-bigip-setup on the jumpbox will replicate dynamically to the container workspace directory. 
 # 3. Configure Access Credentials
 **Pre-req** - Created new user in AWS IAM and granted admin access and saved keys for use below
 
 Start from within the clone of this repository on the jumphost (/home/ubuntu/terraform-aws-bigip-setup)
-- vi secrets.auto.tfvars
+- `vi secrets.auto.tfvars`
 
 enter the following in the *secrets.auto.tfvars* file
-
+```hcl
 AccessKeyID         = "<AN ACCESS KEY FOR YOUR AWS ACCOUNT>" 
 SecretAccessKey     = "<THE SECRET KEY ASSOCIATED WITH THE AWS ACCESS KEY>" 
 ec2_key_name        = "<THE NAME OF AN AWS KEY PAIR WHICH IS ASSOCIATE WITH THE AWS ACOUNT>"
 ec2_key_file        = "<THE PATH TO AN SSH KEY FILE USED TO CONNECT TO THE UBUNTU SERVER ONCE IT IS CREATED. NOTE: THIS PATH SHOULD BE RELATIVE TO THE CONTAINER ROOT>"
-
+```
 save the file and quit vi
 
 #Example
