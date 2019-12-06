@@ -82,6 +82,7 @@ ec2_key_file        = "./bhs-f5aws.pem"
 **Note 1:** When initializing Terraform it scans all tf files and looks for references to modules and providers and pulls down any necessary code
 - Run: ```terraform init```
 This creates .terraform hidden directory and builds the BIG-IPS and the underpinning infrastructure
+
 - Run: ```terraform apply```
 **Note 2:** Running ```terraform plan``` - will show what would happen under ```terraform apply``` without adding the deploy option
 
