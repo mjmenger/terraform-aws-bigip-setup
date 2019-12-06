@@ -25,11 +25,11 @@ https://www.terraform.io/docs/commands/cli-config.html
 - Go to Account > User Settings > Tokens
 - Record token in safe place
 # 1. Running Using a Docker container
-You can choose to run this from your workstation or a container. Follow the instructions below as appropriate;
+You can choose to run this from your workstation or a container although container will be much more straight forward to get working. Follow the instructions below as appropriate;
 
 **Docker Container Setup**
 
-**Note** Port 8089 is opened in order to use the gui of the locust load generating tool should you choose to use it.
+**Note:** Port 8089 is opened in order to use the gui of the locust load generating tool should you choose to use it.
 
 **Using Docker**
 Deploy an ubuntu jumpbox and install Docker CE - 
@@ -48,13 +48,12 @@ Deploy an ubuntu jumpbox and install Docker CE -
   - install jq https://stedolan.github.io/jq/download/
   - if on a Windows workstation, install Putty for scp support https://putty.org
 # 2. Configuring Docker on jumphost: 
-cd $home
-git clone https://github.com/dober-man/terraform-aws-bigip-setup.git
-cd terraform-aws-bigip-setup/
-sudo docker run -it -v $(pwd):/workspace -p 8089:8089 mmenger/tfdemoenv:1.6.2 /bin/bash
+- cd $home
+- git clone https://github.com/dober-man/terraform-aws-bigip-setup.git
+- cd terraform-aws-bigip-setup/
+- sudo docker run -it -v $(pwd):/workspace -p 8089:8089 mmenger/tfdemoenv:1.6.2 /bin/bash
 
-* -v is volume option and maps host directory (bi-directionally and dynamically) to allow host to share files into guest container
-* now all tools from repo are availaboe in docker container - any other files put into /home/ubuntu/terraform-aws-bigip-setup will replicate dynamically to container workspace directory. 
+**Note:** -v is volume option and maps host directory (bi-directionally and dynamically) to allow host to share files into guest container. Now all tools from repo are available in the docker container - any other files put into /home/ubuntu/terraform-aws-bigip-setup on the jumpbox will replicate dynamically to the container workspace directory. 
 # 3. Configure Access Credentials
 #Created new user in AWS IAM and granted admin access and saved keys for use below
 #starting from within the clone of this repository on the jumphost (/home/ubuntu/terraform-aws-bigip-setup)
