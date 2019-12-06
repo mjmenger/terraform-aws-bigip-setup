@@ -30,7 +30,7 @@ https://www.terraform.io/docs/commands/cli-config.html
 You can choose to run this from your workstation or a container. Follow the instructions below as appropriate;
 
 **Docker Container Setup**
-Port 8089 is opened in order to use the gui of the locust load generating tool should you choose to use it.
+**Note** Port 8089 is opened in order to use the gui of the locust load generating tool should you choose to use it.
 
 INSTALL Docker CE - Deploy an ubuntu jumpbox 
   - sudo apt install apt-transport-https ca-certificates curl software-properties-common
