@@ -57,7 +57,7 @@ Deploy an ubuntu jumpbox and install Docker CE -
 # 3. Configure Access Credentials
 **Pre-req** - Created new user in AWS IAM and granted admin access and saved keys for use below
 
-Start from within the clone of this repository on the jumphost (/home/ubuntu/terraform-aws-bigip-setup)
+Start from within the clone of this repository on the jumphost **(/home/ubuntu/terraform-aws-bigip-setup)**
 - `vi secrets.auto.tfvars`
 
 enter the following in the *secrets.auto.tfvars* file
@@ -67,28 +67,34 @@ SecretAccessKey     = "<THE SECRET KEY ASSOCIATED WITH THE AWS ACCESS KEY>"
 ec2_key_name        = "<THE NAME OF AN AWS KEY PAIR WHICH IS ASSOCIATE WITH THE AWS ACOUNT>"
 ec2_key_file        = "<THE PATH TO AN SSH KEY FILE USED TO CONNECT TO THE UBUNTU SERVER ONCE IT IS CREATED. NOTE: THIS PATH SHOULD BE RELATIVE TO THE CONTAINER ROOT>"
 ```
-save the file and quit vi
+- save the file and quit vi
 
 #Example
+```hcl
 AccessKeyID         = "AKIAUEKXXXXXXITHV"
 SecretAccessKey     = "+CXMydN+DJXXXXXXSq2MWQlA6o/+fkSS"
 ec2_key_name        = "bhs-f5aws"
 ec2_key_file        = "./bhs-f5aws.pem"
+```
 
-* need to copy pem file to jump host to terraform directory if not doing this from local machine and put mapping in ec2_key_file description above (/home/ubuntu/terraform-aws-bigip-setup)
-# 4. Setup 
-#initialize Terraform
-#scans all tf files and looks for references to modules and providers and pulls down any necessary code
-```terraform init```
-#creates .terraform hidden directory
-#build the BIG-IPS and the underpinning infrastructure
-#terraform plan - will show what would happen under ```terraform apply``` without adding the deploy option
-```terraform apply```
-#terraform checks three things; 1 .tf files, 2 terraform state files (.tfstate) and 3 looks at what is actually built - (it logs into aws and checks for what has been built that it believes should exist)
-#Next terraform creates a "plan"
-#```terraform apply``` always shows a plan and item count - double check that this looks right)
-#Ex: Plan: 86 to add, 0 to change, 0 to destroy.
-#This builds the entire infrastructure 
+* If using a jumpbox you will need to copy your pem file to the jumpbox into the terraform-aws-bigip-setup directory and make sure mapping for ec2_key_file is correct in the secrets.auto.tfvars* file. **Make sure pem file is in (/home/ubuntu/terraform-aws-bigip-setup)**
+# 4. Setup AWS Environment with Terraform
+**Note 1:** When initializing Terraform it scans all tf files and looks for references to modules and providers and pulls down any necessary code
+- Run: ```terraform init```
+This creates .terraform hidden directory and builds the BIG-IPS and the underpinning infrastructure
+- Run: ```terraform apply```
+**Note 2:** Running ```terraform plan``` - will show what would happen under ```terraform apply``` without adding the deploy option
+
+**Note 3:** Terraform checks three things when running ```plan``` or ```apply```; 
+1. .tf files
+2. Terraform state files (.tfstate)
+3. Terraform looks at what is actually built - (it logs into aws and checks for what has been built that it believes should exist)
+4. Next terraform creates a "plan"
+
+```terraform apply``` always shows a plan and item count - double check that this looks right)
+Ex: Plan: 86 to add, 0 to change, 0 to destroy.
+Selecting **yes** will build the entire infrastructure 
+
 ```Depending upon how you intend to use the environment you may need to wait after Terraform is complete. The configuration of the  BIG-IPs is completed asynchoronously. If you need the BIG-IPs to be fully configured before proceeding, the following Inspec tests validate the connectivity of the BIG-IP and the availability of the management API end point.```
 # 5. Check the status of the BIG-IPs
 #these steps can also be performed using ./runtests.sh
