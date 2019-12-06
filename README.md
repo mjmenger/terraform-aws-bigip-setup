@@ -21,13 +21,14 @@ The url embedded within the error message will load the appropriate location in 
 After subscribing, re-run the ```terraform apply``` and the error should not occur again.
 Demo deployment of F5 BIG-IP in AWS using Terraform
 
- **Note 3:** an authentication token must be generated and recorded as documented below in order to access the modules required by this demo
+ **Note 3:** An authentication token must be generated and recorded as documented below in order to access the modules required by this demo
 https://www.terraform.io/docs/commands/cli-config.html
 - Log into terraform.io
 - Go to Account > User Settings > Tokens
 - Record token in safe place
 # 1. Running Using a Docker container
 You can choose to run this from your workstation or a container. Follow the instructions below as appropriate;
+
 **Docker Container Setup**
 Port 8089 is opened in order to use the gui of the locust load generating tool should you choose to use it.
 
