@@ -2,7 +2,7 @@
 # Pre-Req
 This example creates the following resources inside of AWS.  Please ensure your IAM user or IAM Role has privileges to create these objects.
 
-**Note:** This example requires 4 Elastic IPs, please ensure your EIP limit on your account can accommodate this (information on ElasticIP limits can be found at https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ec2)
+**Note 1:** This example requires 4 Elastic IPs, please ensure your EIP limit on your account can accommodate this (information on ElasticIP limits can be found at https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ec2)
  - AWS VPC
  - AWS Route Tables
  - AWS Nat Gateways
@@ -11,9 +11,9 @@ This example creates the following resources inside of AWS.  Please ensure your 
  - AWS Subnets
  - AWS Security Groups
  
- **Note:** In order to use this demo your AWS account must be subscribed to the F5 AMI and its associated terms and conditions. If your account is not subscribed, the first time ```terraform apply``` is run you will receive an error similar to the following:
+ **Note 2:** In order to use this demo your AWS account must be subscribed to the F5 AMI and its associated terms and conditions. If your account is not subscribed, the first time ```terraform apply``` is run you will receive an error similar to the following:
 
- Error: Error launching source instance: OptInRequired: In order to use this AWS Marketplace product you need to accept terms and subscribe. To do so please 
+ **Error:** Error launching source instance: OptInRequired: In order to use this AWS Marketplace product you need to accept terms and subscribe. To do so please 
 visit https://aws.amazon.com/marketplace/pp?sku=XXXXXXXXXXXXXXXXXXXXXXXX
 
 The url embedded within the error message will load the appropriate location in order to subscribe the AWS account to the F5 AMI.
@@ -21,31 +21,31 @@ The url embedded within the error message will load the appropriate location in 
 After subscribing, re-run the ```terraform apply``` and the error should not occur again.
 Demo deployment of F5 BIG-IP in AWS using Terraform
 
-an authentication token must be generated and recorded as documented below in order to access the modules required by this demo
+ **Note 3:** an authentication token must be generated and recorded as documented below in order to access the modules required by this demo
 https://www.terraform.io/docs/commands/cli-config.html
 - Log into terraform.io
 - Go to Account > User Settings > Tokens
 - Record token in safe place
 # 1. Running Using a Docker container
 You can choose to run this from your workstation or a container. Follow the instructions below as appropriate;
-Docker Container Setup
+**Docker Container Setup**
 Port 8089 is opened in order to use the gui of the locust load generating tool should you choose to use it.
 
 INSTALL Docker CE - Deploy an ubuntu jumpbox 
-  sudo apt install apt-transport-https ca-certificates curl software-properties-common
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic test"
-  sudo apt update
-  sudo apt upgrade
-  sudo apt install docker-ce
-  docker -v
+  - sudo apt install apt-transport-https ca-certificates curl software-properties-common
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic test"
+  - sudo apt update
+  - sudo apt upgrade
+  - sudo apt install docker-ce
+  - docker -v
 
-#Using your workstation
-#install Terraform https://learn.hashicorp.com/terraform/getting-started/install.html
-#install inpsec https://www.inspec.io/downloads/
-#install locust https://docs.locust.io/en/stable/installation.html
-#install jq https://stedolan.github.io/jq/download/
-#if on a Windows workstation, install Putty for scp support https://putty.org
+**Using your workstation**
+  - install Terraform https://learn.hashicorp.com/terraform/getting-started/install.html
+  - install inpsec https://www.inspec.io/downloads/
+  - install locust https://docs.locust.io/en/stable/installation.html
+  - install jq https://stedolan.github.io/jq/download/
+  - if on a Windows workstation, install Putty for scp support https://putty.org
 # 2. Configuring Docker on jumphost: 
 cd $home
 git clone https://github.com/dober-man/terraform-aws-bigip-setup.git
