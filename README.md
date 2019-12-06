@@ -99,19 +99,20 @@ Ex: Plan: 86 to add, 0 to change, 0 to destroy.
 
 Selecting **yes** will build the entire infrastructure 
 
-```Depending upon how you intend to use the environment you may need to wait after Terraform is complete. The configuration of the  BIG-IPs is completed asynchoronously. If you need the BIG-IPs to be fully configured before proceeding, the following Inspec tests validate the connectivity of the BIG-IP and the availability of the management API end point.```
+```Depending upon how you intend to use the environment you may need to wait until after Terraform is complete. The configuration of the BIG-IPs is completed asynchoronously. If you need the BIG-IPs to be fully configured before proceeding, the following Inspec tests validate the connectivity of the BIG-IP and the availability of the management API end point.```
 # 5. Check the status of the BIG-IPs
-#these steps can also be performed using ./runtests.sh
-````terraform output --json > inspec/bigip-ready/files/terraform.json````
-````inspec exec inspec/bigip-ready````
-once the tests all pass the BIG-IPs are ready
-#12-06 getting an error about telemetry streaming module not available. Per Mark Menger - [The telemetry streaming error is actually expected at this time since the terraform build doesn't install TS.
-​The ansible playbook does and then the TS tests would pass
+Run: 
+- ````terraform output --json > inspec/bigip-ready/files/terraform.json````
+- ````inspec exec inspec/bigip-ready````
+**Note:** These steps can also be performed using ./runtests.sh
 
-If terraform returns an error, rerun ```terraform apply```.
+Once the tests all pass the BIG-IPs are ready!
+
+**You will get an error about telemetry streaming module not being available. This is expected since the terraform  doesn't support/install TS at this time. ​The ansible playbook from https://github.com/mjmenger/ansible-uber-demo does the TS configuration.**
+
+If terraform returns an error (other than telemetry streaming), rerun ```terraform apply```.
 # 6. Log into the BIG-IP
-#find the connection info for the BIG-IP
-#these steps can also be performed by using ./findthehosts.sh
+Find the connection info for the BIG-IP 
 export BIGIPHOST0=`terraform output --json | jq -r '.bigip_mgmt_public_ips.value[0]'`
 export BIGIPMGMTPORT=`terraform output --json | jq -r '.bigip_mgmt_port.value'`
 export BIGIPPASSWORD=`terraform output --json | jq -r '.bigip_password.value'`
@@ -120,7 +121,9 @@ echo connect at https://$BIGIPHOST0:$BIGIPMGMTPORT with $BIGIPPASSWORD
 echo connect to jumphost at with
 echo ssh -i "<THE AWS KEY YOU IDENTIFIED ABOVE>" ubuntu@$JUMPHOSTIP
 
-connect to the BIGIP at https://<bigip_mgmt_public_ips>:<bigip_mgmt_port>
+**Note:** These steps can also be performed by using ./findthehosts.sh script
+
+Connect to the BIGIP at https://<bigip_mgmt_public_ips>:<bigip_mgmt_port>
 login as user:admin and password: <bigip_password>
 # 7. Teardown
 When you are done using the demo environment you will need to decommission it
