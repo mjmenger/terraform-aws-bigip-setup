@@ -96,6 +96,7 @@ This creates .terraform hidden directory and builds the BIG-IPS and the underpin
 ```terraform apply``` always shows a plan and item count - double check that this looks right
 
 Ex: Plan: 86 to add, 0 to change, 0 to destroy.
+
 Selecting **yes** will build the entire infrastructure 
 
 ```Depending upon how you intend to use the environment you may need to wait after Terraform is complete. The configuration of the  BIG-IPs is completed asynchoronously. If you need the BIG-IPs to be fully configured before proceeding, the following Inspec tests validate the connectivity of the BIG-IP and the availability of the management API end point.```
