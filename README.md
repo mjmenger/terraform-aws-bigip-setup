@@ -90,10 +90,11 @@ This creates .terraform hidden directory and builds the BIG-IPS and the underpin
 **Note 3:** Terraform checks three things when running ```plan``` or ```apply```; 
 1. .tf files
 2. Terraform state files (.tfstate)
-3. Terraform looks at what is actually built - (it logs into aws and checks for what has been built that it believes should exist)
+3. Terraform looks at what is actually built - (it logs into AWS and checks for what has been built that it believes should exist)
 4. Next terraform creates a "plan"
 
-```terraform apply``` always shows a plan and item count - double check that this looks right)
+```terraform apply``` always shows a plan and item count - double check that this looks right
+
 Ex: Plan: 86 to add, 0 to change, 0 to destroy.
 Selecting **yes** will build the entire infrastructure 
 
