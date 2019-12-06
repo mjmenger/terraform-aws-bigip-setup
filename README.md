@@ -84,6 +84,7 @@ ec2_key_file        = "./bhs-f5aws.pem"
 This creates .terraform hidden directory and builds the BIG-IPS and the underpinning infrastructure
 
 - Run: ```terraform apply```
+
 **Note 2:** Running ```terraform plan``` - will show what would happen under ```terraform apply``` without adding the deploy option
 
 **Note 3:** Terraform checks three things when running ```plan``` or ```apply```; 
