@@ -112,7 +112,9 @@ Once the tests all pass the BIG-IPs are ready!
 
 If terraform returns an error (other than telemetry streaming), rerun ```terraform apply```.
 # 6. Log into the BIG-IP
-Find the connection info for the BIG-IP 
+Find the connection info for the BIG-IP: 
+
+```hcl
 export BIGIPHOST0=`terraform output --json | jq -r '.bigip_mgmt_public_ips.value[0]'`
 export BIGIPMGMTPORT=`terraform output --json | jq -r '.bigip_mgmt_port.value'`
 export BIGIPPASSWORD=`terraform output --json | jq -r '.bigip_password.value'`
@@ -120,11 +122,12 @@ export JUMPHOSTIP=`terraform output --json | jq -r '.jumphost_ip.value[0]'`
 echo connect at https://$BIGIPHOST0:$BIGIPMGMTPORT with $BIGIPPASSWORD
 echo connect to jumphost at with
 echo ssh -i "<THE AWS KEY YOU IDENTIFIED ABOVE>" ubuntu@$JUMPHOSTIP
+```
 
 **Note:** These steps can also be performed by using ./findthehosts.sh script
-123344
-Connect to the BIGIP at https://<bigip_mgmt_public_ips>:<bigip_mgmt_port>
-login as user:admin and password: <bigip_password>
+
+- Connect to the BIGIP at https://<bigip_mgmt_public_ips>:<bigip_mgmt_port> and login as user:admin and password:<bigip_password>
+
 # 7. Teardown
 When you are done using the demo environment you will need to decommission it
 ```terraform destroy```
