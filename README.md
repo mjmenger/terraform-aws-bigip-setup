@@ -130,9 +130,12 @@ echo ssh -i "<THE AWS KEY YOU IDENTIFIED ABOVE>" ubuntu@$JUMPHOSTIP
 
 # 7. Teardown
 When you are done using the demo environment you will need to decommission it
+
 ```terraform destroy```
 
-as a final step check that terraform doesn't think there's anything remaining
+As a final step check that terraform doesn't think there's anything remaining
+
 ```terraform show```
-this should return a blank line
+
+This should return a blank line
 
