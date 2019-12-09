@@ -80,8 +80,8 @@ ec2_key_file        = "./bhs-f5aws.pem"
 * If using a jumpbox you will need to copy your pem file to the jumpbox into the terraform-aws-bigip-setup directory and make sure mapping for ec2_key_file is correct in the secrets.auto.tfvars* file. **Make sure pem file is in (/home/ubuntu/terraform-aws-bigip-setup)**
 # 4. Setup AWS Environment with Terraform
 **Note 1:** When initializing Terraform it scans all tf files and looks for references to modules and providers and pulls down any necessary code
-- Run: ```terraform init```
-This creates .terraform hidden directory and builds the BIG-IPS and the underpinning infrastructure
+- From within the docer container; Run: ```terraform init```
+This creates .terraform hidden directory and prepares the builds for the BIG-IPS and the underpinning infrastructure
 
 - Run: ```terraform apply```
 
