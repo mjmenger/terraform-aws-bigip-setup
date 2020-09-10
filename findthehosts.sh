@@ -3,6 +3,7 @@ export BIGIPHOST1=`terraform output --json | jq -r '.bigip_mgmt_public_ips.value
 export BIGIPMGMTPORT=`terraform output --json | jq -r '.bigip_mgmt_port.value'`
 export BIGIPPASSWORD=`terraform output --json | jq -r '.bigip_password.value'`
 export EC2KEYNAME=`terraform output --json | jq -r '.ec2_key_name.value'`
+export EC2KEYFILE=`terraform output --json | jq -r '.ec2_key_file.value'`
 export JUMPHOSTIP0=`terraform output --json | jq -r '.jumphost_ip.value[0]'`
 export JUMPHOSTIP1=`terraform output --json | jq -r '.jumphost_ip.value[1]'`
 export JUICESHOP0=`terraform output --json | jq -r '.juiceshop_ip.value[0]'`
