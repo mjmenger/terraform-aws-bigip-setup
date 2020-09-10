@@ -42,7 +42,7 @@ variable "cidr" {
 }
 
 variable "allowed_mgmt_cidr" {
-  description = "source addresses allowed access to the BIG-IP management port"
+  description = "list of source addresses allowed access to the BIG-IP management port"
 }
 
 variable "allowed_app_cidr" {
