@@ -1,7 +1,3 @@
-variable "AccessKeyID" {}
-
-variable "SecretAccessKey" {}
-
 variable "prefix" {
   default = "tf-aws-bigip"
 }
