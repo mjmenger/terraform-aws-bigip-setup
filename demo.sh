@@ -6,6 +6,8 @@
 . ../demomagic.sh
 
 TYPE_SPEED=20
+export AWS_PROFILE=sa_admin_access
+pei "terraform apply -auto-approve"
 
 export BIGIPHOST0=`terraform output --json | jq -r '.bigip_mgmt_public_ips.value[0]'`
 export BIGIPHOST1=`terraform output --json | jq -r '.bigip_mgmt_public_ips.value[1]'`
@@ -22,7 +24,7 @@ export GRAFANA1=`terraform output --json | jq -r '.grafana_ip.value[1]'`
 
 pei "scp -i $EC2KEYFILE $EC2KEYFILE ubuntu@$JUMPHOSTIP0:~/$EC2KEYNAME.pem"
 pei "scp -i $EC2KEYFILE ./remotedemo.sh ubuntu@$JUMPHOSTIP0:~/remotedemo.sh"
-pei "ssh -i $EC2KEYFILE ubuntu@$JUMPHOSTIP0 ./remotedemo.sh"
+pei "ssh -i $EC2KEYFILE ubuntu@$JUMPHOSTIP0 ./remotedemo.sh $JUICESHOP0"
 
 echo connect to BIG-IP at https://$BIGIPHOST0:$BIGIPMGMTPORT with $BIGIPPASSWORD
 echo Juice Shop http://$JUICESHOP0
