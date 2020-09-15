@@ -23,3 +23,7 @@ export GRAFANA1=`terraform output --json | jq -r '.grafana_ip.value[1]'`
 pei "scp -i $EC2KEYFILE $EC2KEYFILE ubuntu@$JUMPHOSTIP0:~/$EC2KEYNAME.pem"
 pei "scp -i $EC2KEYFILE ./remotedemo.sh ubuntu@$JUMPHOSTIP0:~/remotedemo.sh"
 pei "ssh -i $EC2KEYFILE ubuntu@$JUMPHOSTIP0 ./remotedemo.sh"
+
+echo connect to BIG-IP at https://$BIGIPHOST0:$BIGIPMGMTPORT with $BIGIPPASSWORD
+echo Juice Shop http://$JUICESHOP0
+echo Grafana http://$GRAFANA0
