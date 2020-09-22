@@ -49,8 +49,8 @@ control "Declarative Onboarding Available" do
               params: {format: 'html'},
               method: 'GET',
               ssl_verify: false).body) do
-          its([0,'version']) { should eq '1.8.0' }
-          its([0,'release']) { should eq '2' } # this should be replaced with a test using the json resource
+          its([0,'version']) { should eq '1.14.0' }
+          its([0,'release']) { should eq '1' } # this should be replaced with a test using the json resource
     end
   end
 end 
@@ -74,8 +74,8 @@ control "Application Services Available" do
               params: {format: 'html'},
               method: 'GET',
               ssl_verify: false).body) do
-          its('version') { should eq '3.16.0' }
-          its('release') { should eq '6' } # this should be replaced with a test using the json resource
+          its('version') { should eq '3.22.1' }
+          its('release') { should eq '1' } # this should be replaced with a test using the json resource
     end
   end
 end 
@@ -99,8 +99,8 @@ control "Telemetry Streaming Available" do
               params: {format: 'html'},
               method: 'GET',
               ssl_verify: false).body) do
-          its('version') { should eq '1.8.0' }
-          its('release') { should eq '1' } # this should be replaced with a test using the json resource
+          its('version') { should eq '1.14.0' }
+          its('release') { should eq '2' } # this should be replaced with a test using the json resource
     end
   end
 end 
