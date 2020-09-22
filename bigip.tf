@@ -38,8 +38,9 @@ module "bigip" {
   f5_instance_count           = length(var.azs)
   ec2_key_name                = var.ec2_key_name
   ec2_instance_type           = var.ec2_bigip_type
-  DO_URL                      = "https://github.com/F5Networks/f5-declarative-onboarding/releases/download/v1.8.0/f5-declarative-onboarding-1.8.0-2.noarch.rpm"
-  AS3_URL                     = "https://github.com/F5Networks/f5-appsvcs-extension/releases/download/v3.16.0/f5-appsvcs-3.16.0-6.noarch.rpm"
+  DO_URL                      = "https://github.com/F5Networks/f5-declarative-onboarding/releases/download/v1.14.0/f5-declarative-onboarding-1.14.0-1.noarch.rpm"
+  AS3_URL                     = "https://github.com/F5Networks/f5-appsvcs-extension/releases/download/v3.22.1/f5-appsvcs-3.22.1-1.noarch.rpm"
+  TS_URL                      = "https://github.com/F5Networks/f5-telemetry-streaming/releases/download/v1.14.0/f5-telemetry-1.14.0-2.noarch.rpm"
 
   mgmt_subnet_security_group_ids  = [
     module.bigip_sg.this_security_group_id,
