@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export AWS_PROFILE=sa_admin_access
 ########################
 # include the magic
 ########################
@@ -8,7 +9,7 @@ fi
 . ./demo-magic.sh
 
 TYPE_SPEED=20
-export AWS_PROFILE=sa_admin_access
+
 pei "terraform apply -auto-approve"
 
 export BIGIPHOST0=`terraform output --json | jq -r '.bigip_mgmt_public_ips.value[0]'`
@@ -35,16 +36,19 @@ PROMPT_TIMEOUT=0
 echo "that should have succeeded - let's test one more time to be sure - press enter when you're ready" 
 pe "./runtests.sh"
 
+echo check out the vanilla BIG-IP at https://$BIGIPHOST0:$BIGIPMGMTPORT with $BIGIPPASSWORD
 
-echo "prepare the environment - copy over the private key"
+echo "prepare the environment - copy over the private key - press enter when you're ready"
 pe "scp -o 'StrictHostKeyChecking no' -i $EC2KEYFILE $EC2KEYFILE ubuntu@$JUMPHOSTIP0:~/$EC2KEYNAME.pem"
 echo "prepare the environment - copy over the configuration script"
-pei "scp -o 'StrictHostKeyChecking no' -i $EC2KEYFILE ./remotedemo.sh ubuntu@$JUMPHOSTIP0:~/remotedemo.sh"
+pei "scp -o 'StrictHostKeyChecking no' -i $EC2KEYFILE ./remoteconfiguration.sh ubuntu@$JUMPHOSTIP0:~/remoteconfiguration.sh"
 echo "prepare the environment - remotely execute the configuration script"
-pei "ssh -o 'StrictHostKeyChecking no' -i $EC2KEYFILE ubuntu@$JUMPHOSTIP0 ./remotedemo.sh $JUICESHOP0"
+pei "ssh -o 'StrictHostKeyChecking no' -i $EC2KEYFILE ubuntu@$JUMPHOSTIP0 ./remoteconfiguration.sh $JUICESHOP0"
 
+echo "********"
 echo connect to BIG-IP at https://$BIGIPHOST0:$BIGIPMGMTPORT with $BIGIPPASSWORD
-echo Juice Shop http://$JUICESHOP0
-echo Grafana http://$GRAFANA0
-
+echo check out the Juice Shop application behind the virtual server at http://$JUICESHOP0
+echo review the telemetry data on the Grafana dashboard at http://$GRAFANA0
+echo "********"
+echo "clean up the environment when you're done - press enter when ready"
 pe "terraform destroy -auto-approve"
