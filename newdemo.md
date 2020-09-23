@@ -41,6 +41,6 @@ At this point the demo script will load the required private key and an environm
 - run an attack on the WAF protected Juice Shop application  
 13. Review the configured environment  
 The environment configuration should now be complete. You are presented with the URLs of the BIG-IP, the Juice Shop virtual server, and the Grafana virtual server. The username and password for Grafana is admin:admin.
-1. Dispose of the environment
+1. Dispose of the environment  
 When you're done exploring the environment, press enter to stage the destroy command and press enter again to execute the command.
 
