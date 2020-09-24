@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export AWS_PROFILE=sa_admin_access
+export AWS_PROFILE=default
 ########################
 # include the magic
 ########################
