@@ -13,6 +13,11 @@ if ! command -v inspec &> /dev/null; then
  exit 1 
 fi
 
+if [ ! -f "terraform.tfvars" ]; then
+  echo "create a terraform.tfvars file with the configuration parameters for the demo build."
+  exit 1
+fi
+
 TYPE_SPEED=20
 
 pei "terraform apply -auto-approve"
