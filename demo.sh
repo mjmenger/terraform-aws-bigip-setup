@@ -4,7 +4,7 @@ export AWS_PROFILE=default
 # include the magic
 ########################
 if [ ! -f "demo-magic.sh" ]; then
-  wget https://raw.githubusercontent.com/paxtonhare/demo-magic/master/demo-magic.sh >> /dev/null 2>&1
+  curl https://raw.githubusercontent.com/paxtonhare/demo-magic/master/demo-magic.sh > ./demo-magic.sh
 fi
 . ./demo-magic.sh
 
