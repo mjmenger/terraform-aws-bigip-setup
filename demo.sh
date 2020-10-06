@@ -8,6 +8,11 @@ if [ ! -f "demo-magic.sh" ]; then
 fi
 . ./demo-magic.sh
 
+if ! command -v inspec &> /dev/null; then
+ echo "Chef Inspec not found. Please install Inspec with the instructions found at https://docs.chef.io/inspec/install/. "
+ exit 1 
+fi
+
 TYPE_SPEED=20
 
 pei "terraform apply -auto-approve"
