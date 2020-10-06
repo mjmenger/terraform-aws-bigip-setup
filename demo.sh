@@ -14,7 +14,17 @@ if ! command -v inspec &> /dev/null; then
 fi
 
 if [ ! -f "terraform.tfvars" ]; then
-  echo "create a terraform.tfvars file with the configuration parameters for the demo build."
+  echo "create a terraform.tfvars file with the configuration parameters for the demo build. The content should look like this:"
+  echo
+  cat << EOI
+ec2_key_name      = "nameofyourec2key"
+ec2_key_file      = "/path/to/your/private/keyfile"
+region            = "us-east-1"
+azs               = ["us-east-1a", "us-east-1b"]
+allowed_mgmt_cidr = ["youripaddress/32","10.0.0.0/8"]
+
+EOI
+
   exit 1
 fi
 
