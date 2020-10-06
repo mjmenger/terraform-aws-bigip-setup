@@ -6,7 +6,7 @@ data "aws_ami" "latest-ubuntu" {
 
   filter {
     name = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
   filter {
@@ -55,7 +55,7 @@ module "jumphost_sg" {
   description = "Security group for BIG-IP Demo"
   vpc_id      = module.vpc.vpc_id
 
-  ingress_cidr_blocks = [var.allowed_mgmt_cidr]
+  ingress_cidr_blocks = var.allowed_mgmt_cidr
   ingress_rules       = ["https-443-tcp", "ssh-tcp"]
   ingress_with_cidr_blocks = [
     {
@@ -63,14 +63,14 @@ module "jumphost_sg" {
       to_port     = 3300
       protocol    = "tcp"
       description = "Juiceshop ports"
-      cidr_blocks = var.allowed_mgmt_cidr
+      cidr_blocks = join(",",var.allowed_mgmt_cidr)
     },
     {
       from_port   = 3000
       to_port     = 3000
       protocol    = "tcp"
       description = "Juiceshop ports"
-      cidr_blocks = var.allowed_mgmt_cidr
+      cidr_blocks = join(",",var.allowed_mgmt_cidr)
     },
   ]
 

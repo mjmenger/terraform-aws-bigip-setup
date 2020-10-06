@@ -9,7 +9,7 @@ all:
           ansible_connection: ssh # connection type used when connecting to the Ubuntu host
           ansible_user: "${ec2_username}" # user name with which to login to the Ubuntu server via ssh
           ansible_become: true # determines if privilege escalation is used while issuing Ansible tasks on the Ubuntu server
-          ansible_ssh_private_key_file: "~/${ec2_key_name}.pem" # path to private key file to use for ssh authentication
+          ansible_ssh_private_key_file: "/home/${ec2_username}/${ec2_key_name}.pem" # path to private key file to use for ssh authentication
           add_ubuntu_interface: false # boolean to add an optional network interface (eth1) to the Ubuntu server using the NetPlan role
           app_server_gateway: "${appserver_gateway_ip}" 
 

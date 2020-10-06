@@ -13,3 +13,6 @@
 
 # secrets
 *.pem
+demo-magic.sh
+.tfswitch.toml
+.env

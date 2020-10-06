@@ -1,0 +1,237 @@
+#
+# bigip address, username, and password are 
+# retrieved from a .env file
+#
+# the format of the .env file looks like
+# bigip1=0.0.0.0
+# user=username
+# password=yoursecretpassword
+#
+
+###
+# @name = dostatus
+#
+GET https://{{$dotenv bigip1}}/mgmt/shared/declarative-onboarding?show=full
+Authorization: Basic {{$dotenv user}} {{$dotenv password}}
+Content-Type: application/json
+
+###
+GET https://{{$dotenv bigip1}}/mgmt/tm/analytics/global-settings HTTP/1.1
+Authorization: Basic {{$dotenv user}} {{$dotenv password}} 
+
+###
+# @name = as3status
+#
+GET https://{{$dotenv bigip1}}/mgmt/shared/appsvcs/declare
+Authorization: Basic {{$dotenv user}} {{$dotenv password}}
+Content-Type: application/json
+
+###
+# @name = allltms
+#
+GET https://{{$dotenv bigip1}}/mgmt/tm/ltm/virtual/
+Authorization: Basic {{$dotenv user}} {{$dotenv password}}
+
+###
+# @name = postas3
+#
+POST https://{{$dotenv bigip1}}/mgmt/shared/appsvcs/declare
+Authorization: Basic {{$dotenv user}} {{$dotenv password}}
+Content-Type: application/json
+
+{
+                    "class": "AS3",
+                    "action": "deploy",
+                    "persist": true,
+                    "declaration": {
+                        "class": "ADC",
+                        "schemaVersion": "3.0.0",
+                        "id": "nIKpFhxl2LDq1Pb68IQvZ93Bw",
+                        "label": "Sample 1",
+                        "remark": "HTTP demo",
+                        "NGINX": {
+                            "class": "Tenant",
+                            "A1": {
+                                "class": "Application",
+                                "template": "http",
+                                "serviceMain": {
+                                    "class": "Service_HTTP",
+                                    "virtualAddresses": [
+                                       "10.20.0.5"
+                                    ],
+                                    "virtualPort": 80,
+                                    "pool": "web_pool",
+                                    "persistenceMethods": [],
+                                    "policyWAF": {
+                                        "use": "ASM_Policy"
+                                    }
+                                },
+                                "web_pool": {
+                                    "class": "Pool",
+                                    "monitors": [
+                                        "http"
+                                    ],
+                                    "members": [
+                                        {
+                                            "servicePort": 80,
+                                            "addressDiscovery": "azure",
+                                            "updateInterval": 10,
+                                            "tagKey": "tagkeyname",
+                                            "tagValue": "tagkeyvalue",
+                                            "addressRealm": "private",
+                                            "resourceGroup": "azureresourcegroup",
+                                            "subscriptionId": "azuresubscription",
+                                            "directoryId": "azuretenant",
+                                            "applicationId": "azureclient",
+                                            "apiAccessKey": "azureclientsecret",
+                                            "credentialUpdate": false
+                                        }                        
+                                    ]
+                                },
+                                "ASM_Policy": {
+                                    "class": "WAF_Policy",
+                                    "url": "https://github.com/mjmenger/waf-policy/raw/0.1.0/asm_policy.xml",
+                                    "ignoreChanges": false
+                                }            
+                            }
+                        }
+                    }
+                }
+
+
+###
+# @name = patchas3
+#
+PATCH https://{{$dotenv bigip1}}/mgmt/shared/appsvcs/declare
+Authorization: Basic {{$dotenv user}} {{$dotenv password}}
+Content-Type: application/json
+
+[
+    {
+        "op": "add",
+        "path": "/NGINXALT/A1/ASM_Policy",
+        "value": {
+                   "class":"WAF_Policy",
+                   "url":"https://github.com/mjmenger/waf-policy/raw/0.1.0/asm_policy.xml",
+                   "ignoreChanges": false
+                }
+    }
+]
+
+
+###
+# @name sendownerconfig
+POST https://{{$dotenv bigip1}}/mgmt/shared/declarative-onboarding
+Authorization: Basic {{$dotenv user}} {{$dotenv password}} 
+Content-Type: application/json
+
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "label": "Onboard BIG-IP into an HA Pair",
+    "Common": {
+        "class": "Tenant",
+        "hostname": "mybigip",
+        "myLicense": {
+            "class": "License",
+            "licenseType": "licensePool",
+            "bigIqHost": "bigiqhost",
+            "bigIqUsername": "bigiquser",
+            "bigIqPassword": "bigiqpassword",
+            "licensePool": "bigiqlicensepool",
+            "skuKeyword1": "sku1",
+            "skuKeyword2": "sku2",
+            "unitOfMeasure": "yearly",
+            "reachable": false,
+            "hypervisor": "azure",
+            "overwrite": true
+        },
+        "myDns": {
+            "class": "DNS",
+            "nameServers": [
+                "8.8.8.8"
+            ],
+            "search": [
+                "f5.com"
+            ]
+        },
+        "myNtp": {
+            "class": "NTP",
+            "servers": [
+                "0.pool.ntp.org","1.pool.ntp.org","2.pool.ntp.org"
+            ],
+            "timezone": "UTC"
+        },
+        "myProvisioning": {
+            "class": "Provision",
+            "ltm": "nominal",
+            "asm": "nominal"
+        },
+        "external": {
+            "class": "VLAN",
+            "tag": 10,
+            "mtu": 1500,
+            "interfaces": [
+                {
+                    "name": "1.1",
+                    "tagged": false
+                }
+            ]
+        },
+        "internal": {
+            "class": "VLAN",
+            "tag": 20,
+            "mtu": 1500,
+            "interfaces": [
+                {
+                    "name": "1.2",
+                    "tagged": false
+                }
+            ]
+        },
+        "internal-self": {
+            "class": "SelfIp",
+            "address": "10.30.0.10/24",
+            "vlan": "internal",
+            "allowService": "default",
+            "trafficGroup": "traffic-group-local-only"
+        },
+        "external-self": {
+            "class": "SelfIp",
+            "address": "10.20.0.9/24",
+            "vlan": "external",
+            "allowService": [
+                "tcp:443"
+            ],
+            "trafficGroup": "traffic-group-local-only"
+        },
+        "configsync": {
+            "class": "ConfigSync",
+            "configsyncIp": "/Common/external-self/address"
+        },
+        "failoverAddress": {
+            "class": "FailoverUnicast",
+            "address": "/Common/external-self/address"
+        },
+        "failoverGroup": {
+            "class": "DeviceGroup",
+            "type": "sync-failover",
+            "members": ["{{$dotenv bigip1}}","{{$dotenv bigip2}}"],
+            "owner": "/Common/failoverGroup/members/0",
+            "autoSync": true,
+            "saveOnAutoSync": false,
+            "networkFailover": true,
+            "fullLoadOnSync": false,
+            "asmSync": false
+        },
+        "trust": {
+            "class": "DeviceTrust",
+            "localUsername": "{{$dotenv user}}",
+            "localPassword": "{{$dotenv password}}",
+            "remoteHost": "/Common/failoverGroup/members/1",
+            "remoteUsername": "{{$dotenv user}}",
+            "remotePassword": "{{$dotenv password}}"
+        }
+    }
+}

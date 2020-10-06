@@ -1,7 +1,3 @@
-variable "AccessKeyID" {}
-
-variable "SecretAccessKey" {}
-
 variable "prefix" {
   default = "tf-aws-bigip"
 }
@@ -41,11 +37,12 @@ variable "ec2_ubuntu_type" {
 # }
 
 variable "cidr" {
-  default = "10.0.0.0/16"
+  description = "addresses for the virtual network"
+  default     = "10.0.0.0/16"
 }
 
 variable "allowed_mgmt_cidr" {
-  default = "0.0.0.0/0"
+  description = "list of source addresses allowed access to the BIG-IP management port"
 }
 
 variable "allowed_app_cidr" {
