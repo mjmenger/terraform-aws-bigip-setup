@@ -25,7 +25,7 @@ resource "aws_secretsmanager_secret_version" "bigip-pwd" {
 #
 module "bigip" {
   source  = "f5devcentral/bigip/aws"
-  version = "0.1.4"
+  version = "0.1.4.1"
 
   prefix = format(
     "%s-bigip-3-nic_with_new_vpc-%s",
