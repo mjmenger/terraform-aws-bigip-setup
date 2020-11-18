@@ -43,18 +43,15 @@ module "bigip" {
   TS_URL                      = "https://github.com/F5Networks/f5-telemetry-streaming/releases/download/v1.14.0/f5-telemetry-1.14.0-2.noarch.rpm"
 
   mgmt_subnet_security_group_ids  = [
-    module.bigip_sg.this_security_group_id,
     module.bigip_mgmt_sg.this_security_group_id
   ]
 
 
   public_subnet_security_group_ids = [
-    module.bigip_sg.this_security_group_id,
-    module.bigip_mgmt_sg.this_security_group_id
+    module.bigip_sg.this_security_group_id
   ]
 
   private_subnet_security_group_ids = [
-    module.bigip_sg.this_security_group_id,
     module.bigip_mgmt_sg.this_security_group_id
   ]
 
@@ -102,13 +99,6 @@ module "bigip_mgmt_sg" {
 
   ingress_cidr_blocks = var.allowed_mgmt_cidr
   ingress_rules       = ["https-443-tcp", "https-8443-tcp", "ssh-tcp"]
-
-  ingress_with_source_security_group_id = [
-    {
-      rule                     = "all-all"
-      source_security_group_id = module.bigip_mgmt_sg.this_security_group_id
-    }
-  ]
 
   # Allow ec2 instances outbound Internet connectivity
   egress_cidr_blocks = ["0.0.0.0/0"]
