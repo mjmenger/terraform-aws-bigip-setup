@@ -16,3 +16,4 @@
 demo-magic.sh
 .tfswitch.toml
 .env
+.terraform.lock.hcl
