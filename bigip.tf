@@ -43,7 +43,6 @@ module "bigip" {
   TS_URL                      = "https://github.com/F5Networks/f5-telemetry-streaming/releases/download/v1.14.0/f5-telemetry-1.14.0-2.noarch.rpm"
 
   mgmt_subnet_security_group_ids  = [
-    module.bigip_sg.this_security_group_id,
     module.bigip_mgmt_sg.this_security_group_id
   ]
 
