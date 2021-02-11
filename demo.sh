@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
-export AWS_PROFILE=default
+#export AWS_PROFILE=default
+if [ -z "$AWS_PROFILE" ]; then
+  echo "please set the AWS_PROFILE environment variable with the credentials profile to use."
+  exit 1
+fi
+if ! command -v jq &> /dev/null; then
+  echo "jq not found. Please install jq "
+fi
 ########################
 # include the magic
 ########################
