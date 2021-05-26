@@ -16,6 +16,7 @@ output "bigip_mgmt_port" {
 output "bigip_password" {
   description = "BIG-IP management password"
   value       = random_password.password.result
+  sensitive = true
 }
 
 output "jumphost_ip" {

@@ -50,6 +50,7 @@ module "dockerhost" {
 #
 module "dockerhost_sg" {
   source = "terraform-aws-modules/security-group/aws"
+  version = "3.18.0"
 
   name        = format("%s-dockerhost-%s", var.prefix, random_id.id.hex)
   description = "Security group for BIG-IP Demo"

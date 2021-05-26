@@ -50,7 +50,7 @@ module "jumphost" {
 #
 module "jumphost_sg" {
   source = "terraform-aws-modules/security-group/aws"
-
+  version = "3.18.0"
   name        = format("%s-jumphost-%s", var.prefix, random_id.id.hex)
   description = "Security group for BIG-IP Demo"
   vpc_id      = module.vpc.vpc_id
