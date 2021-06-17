@@ -42,7 +42,7 @@ module "bigip" {
   AS3_URL                     = "https://github.com/F5Networks/f5-appsvcs-extension/releases/download/v3.22.1/f5-appsvcs-3.22.1-1.noarch.rpm"
   TS_URL                      = "https://github.com/F5Networks/f5-telemetry-streaming/releases/download/v1.14.0/f5-telemetry-1.14.0-2.noarch.rpm"
 
-  mgmt_subnet_security_group_ids  = [
+  mgmt_subnet_security_group_ids = [
     module.bigip_mgmt_sg.this_security_group_id
   ]
 
@@ -61,14 +61,14 @@ module "bigip" {
   vpc_public_subnet_ids  = module.vpc.public_subnets
   vpc_private_subnet_ids = module.vpc.private_subnets
   vpc_mgmt_subnet_ids    = module.vpc.database_subnets
-  }
+}
 
 
 #
 # Create a security group for BIG-IP
 #
 module "bigip_sg" {
-  source = "terraform-aws-modules/security-group/aws"
+  source  = "terraform-aws-modules/security-group/aws"
   version = "3.18.0"
 
   name        = format("%s-bigip-%s", var.prefix, random_id.id.hex)
@@ -94,8 +94,8 @@ module "bigip_sg" {
 # Create a security group for BIG-IP Management
 #
 module "bigip_mgmt_sg" {
-  source = "terraform-aws-modules/security-group/aws"
-  version = "3.18.0"
+  source      = "terraform-aws-modules/security-group/aws"
+  version     = "3.18.0"
   name        = format("%s-bigip-mgmt-%s", var.prefix, random_id.id.hex)
   description = "Security group for BIG-IP Demo"
   vpc_id      = module.vpc.vpc_id
@@ -117,5 +117,5 @@ module "bigip_mgmt_sg" {
 
 data "aws_network_interface" "bar" {
   count = length(module.bigip.public_nic_ids)
-  id = module.bigip.public_nic_ids[count.index]
+  id    = module.bigip.public_nic_ids[count.index]
 }

@@ -14,9 +14,9 @@ module "vpc" {
 
   # vpc public subnet used for external interface
   public_subnets = [for num in range(length(var.azs)) :
-      cidrsubnet(var.cidr, 8, num + var.external_subnet_offset)
+    cidrsubnet(var.cidr, 8, num + var.external_subnet_offset)
   ]
-  
+
   # vpc private subnet used for internal 
   private_subnets = [
     for num in range(length(var.azs)) :
